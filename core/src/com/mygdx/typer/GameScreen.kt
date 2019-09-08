@@ -14,7 +14,7 @@ import com.mygdx.typer.entities.Ground
 import com.mygdx.typer.entities.Player
 import com.mygdx.typer.util.Constants
 
-class GameScreen(keyListener: KeyListener) : ScreenAdapter(), InputProcessor by keyListener {
+class GameScreen(keyListener: KeyProcessor) : ScreenAdapter(), InputProcessor by keyListener {
 
     private lateinit var batch: SpriteBatch
     private lateinit var assets: Assets
@@ -55,7 +55,7 @@ class GameScreen(keyListener: KeyListener) : ScreenAdapter(), InputProcessor by 
         batch.end()
 
         viewport.camera.position.x = player.position.x + Constants.CAMERA_OFFSET_X
-        viewport.camera.position.y = player.position.y + Constants.CAMERA_OFFSET_Y
+        viewport.camera.position.y = 250f
     }
 
 

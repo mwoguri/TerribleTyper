@@ -1,7 +1,9 @@
 package com.mygdx.typer.entities
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
@@ -26,6 +28,11 @@ class Player(private val assets: Assets,
             velocity.y = 0f
         }
 
+        if (state == State.GROUNDED && Gdx.input.isKeyPressed(Input.Keys.A)){
+            state = State.AIRBORNE
+            velocity.y = Constants.JUMP_SPEED
+        }
+
         //Gdx.app.log("position", "${position.x}, ${position.y}")
         previousPosition.set(position)
         position.mulAdd(velocity, delta)
@@ -41,10 +48,16 @@ class Player(private val assets: Assets,
 
     fun render(batch: SpriteBatch) {
 
+        var region: TextureRegion = assets.fall
+        if (state == State.AIRBORNE && velocity.y >= 0) {
+            region = assets.jump
+        } else if (state == State.GROUNDED){
+            val walkTimeSeconds = TimeUtils.timeSinceNanos(walkStartTime) * MathUtils.nanoToSec
+            region = assets.walk.getKeyFrame(walkTimeSeconds)
+        }
+
         batch.begin()
-        val walkTimeSeconds = TimeUtils.timeSinceNanos(walkStartTime) * MathUtils.nanoToSec
-        val keyFrame = assets.walk.getKeyFrame(walkTimeSeconds)
-        DrawUtils.drawTextureRegion(batch, keyFrame, position.x, position.y)
+        DrawUtils.drawTextureRegion(batch, region, position.x, position.y)
         batch.end()
     }
 
@@ -52,7 +65,7 @@ class Player(private val assets: Assets,
     internal fun landed(ground: Ground): Boolean {
         val groundTop = ground.position.y + ground.height
         if (previousPosition.y >= groundTop && position.y <= groundTop) {
-            val isRightEnough = position.x < ground.position.x + ground.width
+            val isRightEnough = position.x + Constants.PLAYER_X_OFFSET < ground.position.x + ground.width
             val isLeftEnough = position.x + Constants.PLAYER_WIDTH > ground.position.x
             return isRightEnough && isLeftEnough
         }

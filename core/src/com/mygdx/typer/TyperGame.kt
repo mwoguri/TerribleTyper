@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game
 class TyperGame : Game() {
 
     override fun create() {
-        setScreen(GameScreen(KeyListener))
+        setScreen(GameScreen(KeyProcessor))
     }
 
 }

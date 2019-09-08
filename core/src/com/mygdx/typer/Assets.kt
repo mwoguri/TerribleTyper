@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.Array
 import com.mygdx.typer.util.Constants
 import com.mygdx.typer.util.Constants.GROUND_ATLAS
+import com.mygdx.typer.util.Constants.JUMP_ATLAS
 import com.mygdx.typer.util.Constants.WALK_ATLAS
 
 class Assets(private val assetManager: AssetManager) : AssetErrorListener {
@@ -20,6 +21,9 @@ class Assets(private val assetManager: AssetManager) : AssetErrorListener {
     }
 
     lateinit var walk: Animation<AtlasRegion>
+    lateinit var jump: TextureRegion
+    lateinit var fall: TextureRegion
+
     lateinit var ground: TextureRegion
 
     fun init() {
@@ -27,6 +31,7 @@ class Assets(private val assetManager: AssetManager) : AssetErrorListener {
 
         assetManager.load<TextureAtlas>(WALK_ATLAS, TextureAtlas::class.java)
         assetManager.load<TextureAtlas>(GROUND_ATLAS, TextureAtlas::class.java)
+        assetManager.load<TextureAtlas>(JUMP_ATLAS, TextureAtlas::class.java)
         assetManager.finishLoading()
         val atlas: TextureAtlas = assetManager.get(WALK_ATLAS)
         val walk1 = atlas.findRegion(Constants.WALK1)
@@ -41,8 +46,13 @@ class Assets(private val assetManager: AssetManager) : AssetErrorListener {
         walkFrames.add(walk4)
 
         walk = Animation(.15f, walkFrames, PlayMode.LOOP)
+
         val groundAtlas: TextureAtlas = assetManager.get(GROUND_ATLAS)
         ground = groundAtlas.findRegion(Constants.GROUND)
+
+        val jumpAtlas: TextureAtlas = assetManager.get(JUMP_ATLAS)
+        jump = jumpAtlas.findRegion(Constants.JUMP)
+        fall = jumpAtlas.findRegion(Constants.FALL)
 
     }
 
