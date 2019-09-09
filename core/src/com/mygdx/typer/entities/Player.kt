@@ -1,7 +1,5 @@
 package com.mygdx.typer.entities
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
@@ -28,16 +26,11 @@ class Player(private val assets: Assets,
             velocity.y = 0f
         }
 
-        if (state == State.GROUNDED && Gdx.input.isKeyPressed(Input.Keys.A)){
-            state = State.AIRBORNE
-            velocity.y = Constants.JUMP_SPEED
-        }
-
         //Gdx.app.log("position", "${position.x}, ${position.y}")
         previousPosition.set(position)
         position.mulAdd(velocity, delta)
 
-        if (landed(ground)){
+        if (landed(ground)) {
             //Gdx.app.log("state", "grounded")
             state = State.GROUNDED
             position.y = ground.position.y + ground.height
@@ -51,7 +44,7 @@ class Player(private val assets: Assets,
         var region: TextureRegion = assets.fall
         if (state == State.AIRBORNE && velocity.y >= 0) {
             region = assets.jump
-        } else if (state == State.GROUNDED){
+        } else if (state == State.GROUNDED) {
             val walkTimeSeconds = TimeUtils.timeSinceNanos(walkStartTime) * MathUtils.nanoToSec
             region = assets.walk.getKeyFrame(walkTimeSeconds)
         }
@@ -70,6 +63,13 @@ class Player(private val assets: Assets,
             return isRightEnough && isLeftEnough
         }
         return false
+    }
+
+    fun jump() {
+        if (state == State.GROUNDED) { //can't jump if already airborne
+            state = State.AIRBORNE
+            velocity.y = Constants.JUMP_SPEED
+        }
     }
 
     enum class State {

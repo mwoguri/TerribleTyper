@@ -70,6 +70,8 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
+        testCompile 'junit:junit:4.12'
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+        testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
     }
 }

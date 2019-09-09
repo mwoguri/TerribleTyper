@@ -14,7 +14,13 @@ import com.mygdx.typer.entities.Ground
 import com.mygdx.typer.entities.Player
 import com.mygdx.typer.util.Constants
 
-class GameScreen(keyListener: KeyProcessor) : ScreenAdapter(), InputProcessor by keyListener {
+class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
+        InputProcessor by keyProcessor,
+        MoveListener {
+
+    override fun jump() {
+        player.jump()
+    }
 
     private lateinit var batch: SpriteBatch
     private lateinit var assets: Assets
@@ -30,10 +36,11 @@ class GameScreen(keyListener: KeyProcessor) : ScreenAdapter(), InputProcessor by
         assets = Assets(AssetManager())
         assets.init()
         player = Player(assets)
-        ground = Ground(assets, Vector2(10f, 10f), 800f, 200f)
+        ground = Ground(assets, Vector2(10f, 10f), 8000f, 200f)
         font = BitmapFont()
         font.data.setScale(10f)
         Gdx.input.inputProcessor = this
+        keyProcessor.setMoveListener(this)
     }
 
     override fun render(delta: Float) {
