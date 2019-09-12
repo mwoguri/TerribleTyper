@@ -3,11 +3,15 @@ package com.mygdx.typer.entities
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.TimeUtils
 import com.mygdx.typer.Assets
 import com.mygdx.typer.util.Constants
 import com.mygdx.typer.util.Constants.FORWARD_VELOCITY
+import com.mygdx.typer.util.Constants.PLAYER_HEIGHT
+import com.mygdx.typer.util.Constants.PLAYER_WIDTH
 import com.mygdx.typer.util.DrawUtils
 
 class Player(private val assets: Assets,
@@ -16,9 +20,10 @@ class Player(private val assets: Assets,
              private val velocity: Vector2 = Vector2(FORWARD_VELOCITY, 0f),
              private var state: State = State.AIRBORNE) {
     private val walkStartTime: Long = TimeUtils.nanoTime()
+    private val boundaryRectangle = Rectangle(position.x, position.y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 
-    fun update(delta: Float, ground: Ground) {
+    fun update(delta: Float, grounds: Array<Ground>) {
         if (state == State.AIRBORNE) {
             velocity.y -= Constants.GRAVITY * delta
         }
@@ -26,16 +31,17 @@ class Player(private val assets: Assets,
             velocity.y = 0f
         }
 
-        //Gdx.app.log("position", "${position.x}, ${position.y}")
         previousPosition.set(position)
         position.mulAdd(velocity, delta)
+        boundaryRectangle.setPosition(position)
 
-        if (landed(ground)) {
-            //Gdx.app.log("state", "grounded")
-            state = State.GROUNDED
-            position.y = ground.position.y + ground.height
-        } else {
-            state = State.AIRBORNE
+        state = State.AIRBORNE
+        for (ground in grounds) {
+            if (landed(ground)) {
+                state = State.GROUNDED
+                position.y = ground.position.y + ground.height
+                break
+            }
         }
     }
 
@@ -55,14 +61,24 @@ class Player(private val assets: Assets,
     }
 
 
-    internal fun landed(ground: Ground): Boolean {
+    private fun landed(ground: Ground): Boolean {
         val groundTop = ground.position.y + ground.height
         if (previousPosition.y >= groundTop && position.y <= groundTop) {
             val isRightEnough = position.x + Constants.PLAYER_X_OFFSET < ground.position.x + ground.width
-            val isLeftEnough = position.x + Constants.PLAYER_WIDTH > ground.position.x
+            val isLeftEnough = position.x + PLAYER_WIDTH > ground.position.x
             return isRightEnough && isLeftEnough
         }
         return false
+    }
+
+    fun hitCoins(coins: Array<Coin>): Array<Coin> {
+        val hitCoins = Array<Coin>()
+        for (coin in coins) {
+            if (boundaryRectangle.overlaps(coin.boundingBox)) {
+                hitCoins.add(coin)
+            }
+        }
+        return hitCoins
     }
 
     fun jump() {
@@ -70,6 +86,10 @@ class Player(private val assets: Assets,
             state = State.AIRBORNE
             velocity.y = Constants.JUMP_SPEED
         }
+    }
+
+    fun isDead(): Boolean {
+        return position.y < Constants.KILL_PLANE
     }
 
     enum class State {

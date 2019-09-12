@@ -5,9 +5,11 @@ object Constants {
     const val WORLD_SIZE = 2000f
     const val CAMERA_OFFSET_X = WORLD_SIZE / 2
     const val CAMERA_OFFSET_Y = 800
+    const val KILL_PLANE = -2500
 
-    const val PLAYER_WIDTH = 307
-    const val PLAYER_X_OFFSET = 70
+    const val PLAYER_WIDTH = 307f
+    const val PLAYER_HEIGHT = 409f
+    const val PLAYER_X_OFFSET = 70f //blank space between start of texture and the feet
 
     const val JUMP_SPEED: Float = 1700f
     const val GRAVITY: Float = 4000f
