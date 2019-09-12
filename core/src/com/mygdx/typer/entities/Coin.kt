@@ -10,7 +10,7 @@ import com.mygdx.typer.KeyProcessor
 import com.mygdx.typer.util.DrawUtils
 
 
-class Coin(private val target: Int,
+class Coin(val target: Char,
            private val assets: Assets,
            private val font: BitmapFont,
            val position: Vector2) {
@@ -21,7 +21,7 @@ class Coin(private val target: Int,
     fun render(batch: SpriteBatch) {
         batch.begin()
         DrawUtils.drawTextureRegion(batch, assets.ground, position.x, position.y)
-        val toDisplay = if (target == KeyProcessor.HOMEROW) "!!" else Input.Keys.toString(target)
+        val toDisplay = if (target == KeyProcessor.HOMEROW) "!!" else target.toString()
         font.draw(batch, toDisplay, position.x, position.y + 150)
         batch.end()
     }

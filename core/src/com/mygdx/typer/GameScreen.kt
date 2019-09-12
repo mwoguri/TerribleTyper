@@ -1,7 +1,6 @@
 package com.mygdx.typer
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.assets.AssetManager
@@ -49,23 +48,25 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         font = BitmapFont()
         font.data.setScale(10f)
         coins = DelayedRemovalArray<Coin>()
-        coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(900f, 900f)))
-        coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(500f, 200f)))
-        coins.add(Coin(Keys.A, assets, font, Vector2(2300f, 900f)))
+        coins.add(Coin('*', assets, font, Vector2(900f, 900f)))
+        coins.add(Coin('a', assets, font, Vector2(500f, 200f)))
+        coins.add(Coin('s', assets, font, Vector2(2300f, 900f)))
         coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(2800f, 900f)))
         coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(3200f, 900f)))
-        coins.add(Coin(Keys.A, assets, font, Vector2(3900f, 900f)))
-        coins.add(Coin(Keys.A, assets, font, Vector2(4500f, 900f)))
-        coins.add(Coin(Keys.S, assets, font, Vector2(5600f, 900f)))
-        coins.add(Coin(Keys.S, assets, font, Vector2(6600f, 900f)))
+        coins.add(Coin('d', assets, font, Vector2(3900f, 900f)))
+        coins.add(Coin('a', assets, font, Vector2(4500f, 900f)))
+        coins.add(Coin('s', assets, font, Vector2(5600f, 900f)))
+        coins.add(Coin('d', assets, font, Vector2(6600f, 900f)))
         coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(7200f, 900f)))
 
         Gdx.input.inputProcessor = this
+        keyProcessor.addCoins(coins)
         keyProcessor.setMoveListener(this)
     }
 
     fun spawn() {
         player.position.set(100f, 600f)
+        player.velocity.y = 0f
     }
 
     override fun render(delta: Float) {
@@ -82,7 +83,7 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         if (player.isDead()) {
             spawn()
         }
-
+        keyProcessor.update(player.position)
 
         val hitCoins = player.hitCoins(coins)
         coins.begin()

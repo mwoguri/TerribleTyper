@@ -17,7 +17,7 @@ import com.mygdx.typer.util.DrawUtils
 class Player(private val assets: Assets,
              val position: Vector2 = Vector2(100f, 300f),
              val previousPosition: Vector2 = Vector2(position),
-             private val velocity: Vector2 = Vector2(FORWARD_VELOCITY, 0f),
+             val velocity: Vector2 = Vector2(FORWARD_VELOCITY, 0f),
              private var state: State = State.AIRBORNE) {
     private val walkStartTime: Long = TimeUtils.nanoTime()
     private val boundaryRectangle = Rectangle(position.x, position.y, PLAYER_WIDTH, PLAYER_HEIGHT)

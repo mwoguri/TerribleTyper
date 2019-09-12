@@ -1,21 +1,25 @@
 package com.mygdx.typer
 
-import com.badlogic.gdx.Input.Keys.*
 import com.badlogic.gdx.InputProcessor
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.DelayedRemovalArray
+import com.mygdx.typer.entities.Coin
 
 class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
     companion object {
-        const val HOMEROW = -1
+        const val HOMEROW = '*'
+        const val MIN_KEYS_HIT = 4
         // must hit at least 4 keys in homerow to be considered a homerow hit
-        val HOMEROW_KEYS = setOf(A, S, D, F, J, K, L, SEMICOLON)
+        val HOMEROW_KEYS = setOf('a', 's', 'd', 'f', 'j', 'k', 'l', ';')
         const val HALF_SECOND = 0.5f
         const val NANOS_PER_SECOND = 1000000000
         const val TIMEOUT = HALF_SECOND * NANOS_PER_SECOND
     }
 
-    val previousKeys: HashMap<Int, Long> = HashMap()
+    val previousKeys: HashMap<Char, Long> = HashMap()
 
     val TAG = "KeyProcessor"
+    private var coins: DelayedRemovalArray<Coin>? = null
     private var moveListener: MoveListener? = null
     private var target = HOMEROW
 
@@ -24,17 +28,17 @@ class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
         this.moveListener = moveListener
     }
 
-    fun setKey(keycodeTarget: Int = HOMEROW) {
-        this.target = keycodeTarget
+    fun setKey(target: Char = HOMEROW) {
+        this.target = target
     }
 
-    override fun keyDown(keycode: Int): Boolean {
-        if (target == HOMEROW && keycode in HOMEROW_KEYS) {
-            previousKeys[keycode] = clock.nanoTime()
+    override fun keyTyped(character: Char): Boolean {
+        if (target == HOMEROW && character in HOMEROW_KEYS) {
+            previousKeys[character] = clock.nanoTime()
             if (homerowHit()) {
                 moveListener?.jump()
             }
-        } else if (keycode == target) {
+        } else if (character == target) {
             moveListener?.jump()
         }
         return true
@@ -44,7 +48,18 @@ class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
         val currentTime = clock.nanoTime()
         return previousKeys.filterValues {
             currentTime - it < TIMEOUT
-        }.size >= 4
+        }.size >= MIN_KEYS_HIT
+    }
+
+    fun addCoins(coins: DelayedRemovalArray<Coin>) {
+        this.coins = coins
+    }
+
+    fun update(playerPosition: Vector2) {
+        val nextCoin: Coin? = coins?.filter { it.position.x > playerPosition.x }
+                ?.sortedWith(compareBy { it.position.x })
+                ?.firstOrNull()
+        target = nextCoin?.target ?: HOMEROW
     }
 
     ///////////////////////////////////////////////////////////////
@@ -58,11 +73,12 @@ class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
         return true
     }
 
-    override fun keyTyped(character: Char): Boolean {
+    override fun scrolled(amount: Int): Boolean {
         return true
     }
 
-    override fun scrolled(amount: Int): Boolean {
+
+    override fun keyDown(keycode: Int): Boolean {
         return true
     }
 
