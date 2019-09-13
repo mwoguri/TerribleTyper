@@ -16,13 +16,13 @@ class Coin(val target: Char,
            val position: Vector2) {
 
     //TODO fix this
-    val boundingBox = Rectangle(position.x, position.y, 300f, 300f)
+    val boundingBox = Rectangle(position.x, position.y, 60f, 60f)
 
     fun render(batch: SpriteBatch) {
         batch.begin()
-        DrawUtils.drawTextureRegion(batch, assets.ground, position.x, position.y)
+        DrawUtils.drawTextureRegion(batch, assets.ground, position.x, position.y, 60f, 60f)
         val toDisplay = if (target == KeyProcessor.HOMEROW) "!!" else target.toString()
-        font.draw(batch, toDisplay, position.x, position.y + 150)
+        font.draw(batch, toDisplay, position.x, position.y + 50)
         batch.end()
     }
 }

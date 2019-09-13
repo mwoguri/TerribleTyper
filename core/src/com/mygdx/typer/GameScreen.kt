@@ -12,56 +12,70 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.DelayedRemovalArray
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.mygdx.typer.entities.Background
 import com.mygdx.typer.entities.Coin
 import com.mygdx.typer.entities.Ground
 import com.mygdx.typer.entities.Player
 import com.mygdx.typer.util.Constants
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import kotlin.random.Random
+
 
 class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         InputProcessor by keyProcessor,
         MoveListener {
 
-    override fun jump() {
-        player.jump()
-    }
-
     private lateinit var batch: SpriteBatch
     private lateinit var assets: Assets
     private lateinit var player: Player
     private lateinit var grounds: Array<Ground>
+    private lateinit var backgrounds: Array<Background>
     private lateinit var coins: DelayedRemovalArray<Coin>
     private lateinit var viewport: Viewport
     private lateinit var font: BitmapFont
 
+
     override fun show() {
         super.show()
-        viewport = ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE)
-        batch = SpriteBatch()
+
         assets = Assets(AssetManager())
+        viewport = ExtendViewport(Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y)
+        batch = SpriteBatch()
         assets.init()
-        player = Player(assets)
-        grounds = Array<Ground>()
-        grounds.add(Ground(assets, Vector2(10f, 10f), 800f, 200f))
-        grounds.add(Ground(assets, Vector2(1100f, 80f), 900f, 200f))
-        grounds.add(Ground(assets, Vector2(2300f, 10f), 200f, 200f))
-        grounds.add(Ground(assets, Vector2(2800f, 10f), 20000f, 200f))
         font = BitmapFont()
-        font.data.setScale(10f)
+        font.data.setScale(4f)
         coins = DelayedRemovalArray<Coin>()
-        coins.add(Coin('*', assets, font, Vector2(900f, 900f)))
-        coins.add(Coin('a', assets, font, Vector2(500f, 200f)))
-        coins.add(Coin('s', assets, font, Vector2(2300f, 900f)))
-        coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(2800f, 900f)))
-        coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(3200f, 900f)))
-        coins.add(Coin('d', assets, font, Vector2(3900f, 900f)))
-        coins.add(Coin('a', assets, font, Vector2(4500f, 900f)))
-        coins.add(Coin('s', assets, font, Vector2(5600f, 900f)))
-        coins.add(Coin('d', assets, font, Vector2(6600f, 900f)))
-        coins.add(Coin(KeyProcessor.HOMEROW, assets, font, Vector2(7200f, 900f)))
+
+
+        val levelParser = LevelParser(Json(JsonConfiguration(strictMode = false)))
+        val level = levelParser.parse(Gdx.files.internal("MainScene.json").readString())
+        grounds = Array<Ground>()
+        backgrounds = Array<Background>()
+        for (image: Image in level.composite.sImages) {
+            if (image.imageName == Constants.BACKGROUND) {
+                backgrounds.add(Background(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH)))
+            } else if (image.imageName == Constants.LAND) {
+                grounds.add(Ground(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH)))
+            }
+        }
+        player = Player(assets)
+
+        for (ground in grounds) {
+            val numCoins: Int = (Math.random() * 5).toInt() + 5
+            for (position in ground.generateCoinLocations(numCoins)) {
+                val target = if (Random.nextBoolean()) KeyProcessor.HOMEROW else 'j'
+                coins.add(Coin(target, assets, font, position))
+            }
+        }
 
         Gdx.input.inputProcessor = this
         keyProcessor.addCoins(coins)
         keyProcessor.setMoveListener(this)
+    }
+
+    override fun jump() {
+        player.jump()
     }
 
     fun spawn() {
@@ -75,7 +89,7 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         batch.projectionMatrix = viewport.camera.combined
 
         super.render(delta)
-        Gdx.gl.glClearColor(.7f, .7f, 0f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
 
@@ -93,22 +107,21 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         }
         coins.end()
 
-
-
+        for (background in backgrounds) {
+            background.render(batch)
+        }
         for (ground in grounds) {
             ground.render(batch)
         }
+
         player.render(batch)
         for (coin in coins) {
             coin.render(batch)
         }
 
-        batch.begin()
-        font.draw(batch, "Welcome", 0f, 500f)
-        batch.end()
 
         viewport.camera.position.x = player.position.x + Constants.CAMERA_OFFSET_X
-        viewport.camera.position.y = 250f
+        viewport.camera.position.y = 400f
     }
 
 

@@ -1,0 +1,20 @@
+
+pack.png
+size: 4096,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bgHill
+  rotate: false
+  xy: 2, 223
+  size: 2400, 1200
+  orig: 2400, 1200
+  offset: 0, 0
+  index: -1
+land
+  rotate: false
+  xy: 2, 2
+  size: 2402, 219
+  orig: 2402, 219
+  offset: 0, 0
+  index: -1
