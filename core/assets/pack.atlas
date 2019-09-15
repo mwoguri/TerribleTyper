@@ -6,14 +6,70 @@ filter: Linear,Linear
 repeat: none
 bgHill
   rotate: false
-  xy: 2, 223
+  xy: 2, 409
   size: 2400, 1200
   orig: 2400, 1200
   offset: 0, 0
   index: -1
-land
+coin1
+  rotate: false
+  xy: 2, 126
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+coin2
+  rotate: false
+  xy: 2, 64
+  size: 59, 60
+  orig: 59, 60
+  offset: 0, 0
+  index: -1
+coin3
+  rotate: false
+  xy: 2404, 1487
+  size: 44, 60
+  orig: 44, 60
+  offset: 0, 0
+  index: -1
+coin4
   rotate: false
   xy: 2, 2
+  size: 32, 60
+  orig: 32, 60
+  offset: 0, 0
+  index: -1
+coin5
+  rotate: false
+  xy: 63, 64
+  size: 10, 60
+  orig: 10, 60
+  offset: 0, 0
+  index: -1
+coin6
+  rotate: false
+  xy: 2465, 1549
+  size: 32, 60
+  orig: 32, 60
+  offset: 0, 0
+  index: -1
+coin7
+  rotate: false
+  xy: 64, 126
+  size: 44, 60
+  orig: 44, 60
+  offset: 0, 0
+  index: -1
+coin8
+  rotate: false
+  xy: 2404, 1549
+  size: 59, 60
+  orig: 59, 60
+  offset: 0, 0
+  index: -1
+land
+  rotate: false
+  xy: 2, 188
   size: 2402, 219
   orig: 2402, 219
   offset: 0, 0

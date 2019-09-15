@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
@@ -43,8 +45,9 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         viewport = ExtendViewport(Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y)
         batch = SpriteBatch()
         assets.init()
-        font = BitmapFont()
-        font.data.setScale(4f)
+        font = BitmapFont(Gdx.files.internal("80.fnt"), false)
+        font.data.scale(-0.3f)
+        font.setColor(Color.BLACK)
         coins = DelayedRemovalArray<Coin>()
 
 
@@ -62,7 +65,7 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
         player = Player(assets)
 
         for (ground in grounds) {
-            val numCoins: Int = (Math.random() * 5).toInt() + 5
+            val numCoins: Int = (Math.random() * 5f).toInt() + 5
             for (position in ground.generateCoinLocations(numCoins)) {
                 val target = if (Random.nextBoolean()) KeyProcessor.HOMEROW else 'j'
                 coins.add(Coin(target, assets, font, position))
@@ -133,6 +136,7 @@ class GameScreen(val keyProcessor: KeyProcessor) : ScreenAdapter(),
     override fun dispose() {
         super.dispose()
         batch.dispose()
+        font.dispose()
     }
 
 }
