@@ -12,6 +12,7 @@ buildscript {
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
     }
 }
 

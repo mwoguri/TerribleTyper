@@ -1,4 +1,5 @@
 apply plugin: "kotlin"
+apply plugin: 'kotlinx-serialization'
 
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]

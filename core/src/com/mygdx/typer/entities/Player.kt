@@ -56,7 +56,7 @@ class Player(private val assets: Assets,
         }
 
         batch.begin()
-        DrawUtils.drawTextureRegion(batch, region, position.x, position.y)
+        DrawUtils.drawTextureRegion(batch, region, position.x, position.y, 80f, 120f)
         batch.end()
     }
 
