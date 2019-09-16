@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -28,11 +27,12 @@ class Assets(private val assetManager: AssetManager) : AssetErrorListener {
 
     lateinit var ground: TextureRegion
     lateinit var background: TextureRegion
-    lateinit var home: Texture //TODO put in a spritesheet
+    lateinit var home: TextureRegion
+    lateinit var emptyChest: TextureRegion
+    lateinit var chest: TextureRegion
 
     fun init() {
         assetManager.setErrorListener(this)
-        home = Texture(Gdx.files.internal("home.png"));
         assetManager.load<TextureAtlas>(WALK_ATLAS, TextureAtlas::class.java)
         assetManager.load<TextureAtlas>(JUMP_ATLAS, TextureAtlas::class.java)
         assetManager.load<TextureAtlas>(MAIN_SCENE_ATLAS, TextureAtlas::class.java)
@@ -51,21 +51,23 @@ class Assets(private val assetManager: AssetManager) : AssetErrorListener {
 
         walk = Animation(.15f, walkFrames, PlayMode.LOOP)
 
-
-        val groundAtlas: TextureAtlas = assetManager.get(MAIN_SCENE_ATLAS)
-        ground = groundAtlas.findRegion(Constants.LAND)
-        background = groundAtlas.findRegion(Constants.BACKGROUND)
+        val mainAtlas: TextureAtlas = assetManager.get(MAIN_SCENE_ATLAS)
+        ground = mainAtlas.findRegion(Constants.LAND)
+        background = mainAtlas.findRegion(Constants.BACKGROUND)
+        home = mainAtlas.findRegion(Constants.HOME)
+        emptyChest = mainAtlas.findRegion(Constants.EMPTY_CHEST)
+        chest = mainAtlas.findRegion(Constants.CHEST)
 
         //TODO fix coins
         val coinFrames: Array<AtlasRegion> = Array<AtlasRegion>()
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN1))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN2))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN3))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN4))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN1))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN2))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN3))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN4))
         //coinFrames.add(groundAtlas.findRegion(Constants.COIN5))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN6))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN7))
-        coinFrames.add(groundAtlas.findRegion(Constants.COIN8))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN6))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN7))
+        coinFrames.add(mainAtlas.findRegion(Constants.COIN8))
         coin = Animation(0.05f, coinFrames, PlayMode.LOOP)
 
         val jumpAtlas: TextureAtlas = assetManager.get(JUMP_ATLAS)

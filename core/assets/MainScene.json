@@ -1,1 +1,112 @@
-{"sceneName":"MainScene","composite":{"sImages":[{"uniqueId":2,"itemIdentifier":"bgHill","tags":[],"originX":15,"originY":7.5,"layerName":"Default","imageName":"bgHill"},{"uniqueId":3,"itemIdentifier":"bgHill","tags":[],"x":29,"originX":15,"originY":7.5,"zIndex":1,"layerName":"Default","imageName":"bgHill"},{"uniqueId":4,"itemIdentifier":"bgHill","tags":[],"x":57.987503,"originX":15,"originY":7.5,"zIndex":2,"layerName":"Default","imageName":"bgHill"},{"uniqueId":6,"itemIdentifier":"bgHill","tags":[],"x":85.975006,"originX":15,"originY":7.5,"zIndex":3,"layerName":"Default","imageName":"bgHill"},{"uniqueId":5,"itemIdentifier":"land","tags":[],"originX":15.0125,"originY":1.36875,"zIndex":4,"layerName":"Default","imageName":"land"},{"uniqueId":7,"itemIdentifier":"land","tags":[],"x":29,"originX":15.0125,"originY":1.36875,"zIndex":5,"layerName":"Default","imageName":"land"},{"uniqueId":8,"itemIdentifier":"land","tags":[],"x":57.987503,"originX":15.0125,"originY":1.36875,"zIndex":6,"layerName":"Default","imageName":"land"},{"uniqueId":9,"itemIdentifier":"land","tags":[],"x":85.975006,"originX":15.0125,"originY":1.36875,"zIndex":7,"layerName":"Default","imageName":"land"}],"layers":[{"layerName":"Default","isVisible":true}]},"physicsPropertiesVO":{}}
+{
+  "sceneName": "MainScene",
+  "composite": {
+    "sImages": [
+      {
+        "uniqueId": 2,
+        "itemIdentifier": "bgHill",
+        "tags": [],
+        "originX": 15,
+        "originY": 7.5,
+        "layerName": "Default",
+        "imageName": "bgHill"
+      },
+      {
+        "uniqueId": 3,
+        "itemIdentifier": "bgHill",
+        "tags": [],
+        "x": 29,
+        "originX": 15,
+        "originY": 7.5,
+        "zIndex": 1,
+        "layerName": "Default",
+        "imageName": "bgHill"
+      },
+      {
+        "uniqueId": 4,
+        "itemIdentifier": "bgHill",
+        "tags": [],
+        "x": 57.987503,
+        "originX": 15,
+        "originY": 7.5,
+        "zIndex": 2,
+        "layerName": "Default",
+        "imageName": "bgHill"
+      },
+      {
+        "uniqueId": 6,
+        "itemIdentifier": "bgHill",
+        "tags": [],
+        "x": 85.975006,
+        "originX": 15,
+        "originY": 7.5,
+        "zIndex": 3,
+        "layerName": "Default",
+        "imageName": "bgHill"
+      },
+      {
+        "uniqueId": 5,
+        "itemIdentifier": "land",
+        "tags": [],
+        "originX": 15.0125,
+        "originY": 1.36875,
+        "zIndex": 4,
+        "layerName": "Default",
+        "imageName": "land"
+      },
+      {
+        "uniqueId": 7,
+        "itemIdentifier": "land",
+        "tags": [],
+        "x": 29,
+        "originX": 15.0125,
+        "originY": 1.36875,
+        "zIndex": 5,
+        "layerName": "Default",
+        "imageName": "land"
+      },
+      {
+        "uniqueId": 8,
+        "itemIdentifier": "land",
+        "tags": [],
+        "x": 57.987503,
+        "originX": 15.0125,
+        "originY": 1.36875,
+        "zIndex": 6,
+        "layerName": "Default",
+        "imageName": "land"
+      },
+      {
+        "uniqueId": 9,
+        "itemIdentifier": "land",
+        "tags": [
+          "end"
+        ],
+        "x": 85.975006,
+        "originX": 15.0125,
+        "originY": 1.36875,
+        "zIndex": 7,
+        "layerName": "Default",
+        "imageName": "land"
+      },
+      {
+        "uniqueId": 11,
+        "tags": [],
+        "x": 109.675,
+        "y": 2.4875002,
+        "originX": 0.75,
+        "originY": 0.6625,
+        "zIndex": 8,
+        "layerName": "Default",
+        "imageName": "EmptyChest"
+      }
+    ],
+    "layers": [
+      {
+        "layerName": "Default",
+        "isVisible": true
+      }
+    ]
+  },
+  "physicsPropertiesVO": {}
+}

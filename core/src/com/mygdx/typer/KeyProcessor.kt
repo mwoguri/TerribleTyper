@@ -51,7 +51,7 @@ class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
         }.size >= MIN_KEYS_HIT
     }
 
-    fun addCoins(coins: DelayedRemovalArray<Coin>) {
+    fun setCoins(coins: DelayedRemovalArray<Coin>) {
         this.coins = coins
     }
 

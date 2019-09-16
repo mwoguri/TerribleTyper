@@ -4,72 +4,93 @@ size: 4096,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+Chest
+  rotate: false
+  xy: 2404, 1549
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: -1
+EmptyChest
+  rotate: false
+  xy: 2, 126
+  size: 120, 106
+  orig: 120, 106
+  offset: 0, 0
+  index: -1
 bgHill
   rotate: false
-  xy: 2, 409
+  xy: 2, 455
   size: 2400, 1200
   orig: 2400, 1200
   offset: 0, 0
   index: -1
 coin1
   rotate: false
-  xy: 2, 126
+  xy: 2, 64
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 coin2
   rotate: false
-  xy: 2, 64
+  xy: 2404, 1487
   size: 59, 60
   orig: 59, 60
   offset: 0, 0
   index: -1
 coin3
   rotate: false
-  xy: 2404, 1487
+  xy: 2, 2
   size: 44, 60
   orig: 44, 60
   offset: 0, 0
   index: -1
 coin4
   rotate: false
-  xy: 2, 2
+  xy: 185, 172
   size: 32, 60
   orig: 32, 60
   offset: 0, 0
   index: -1
 coin5
   rotate: false
-  xy: 63, 64
+  xy: 2404, 1425
   size: 10, 60
   orig: 10, 60
   offset: 0, 0
   index: -1
 coin6
   rotate: false
-  xy: 2465, 1549
+  xy: 64, 64
   size: 32, 60
   orig: 32, 60
   offset: 0, 0
   index: -1
 coin7
   rotate: false
-  xy: 64, 126
+  xy: 2526, 1595
   size: 44, 60
   orig: 44, 60
   offset: 0, 0
   index: -1
 coin8
   rotate: false
-  xy: 2404, 1549
+  xy: 124, 172
   size: 59, 60
   orig: 59, 60
   offset: 0, 0
   index: -1
+home
+  rotate: false
+  xy: 124, 134
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
 land
   rotate: false
-  xy: 2, 188
+  xy: 2, 234
   size: 2402, 219
   orig: 2402, 219
   offset: 0, 0

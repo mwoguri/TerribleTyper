@@ -2,6 +2,7 @@ package com.mygdx.typer.util
 
 object Constants {
 
+    const val COIN_VALUE = 10
     const val HOME_ICON_OFFSET = 10
     const val COIN_OFFSET = 30
     const val COIN_ALTITUDE = 200f
@@ -11,6 +12,7 @@ object Constants {
     const val CAMERA_OFFSET_X = WORLD_SIZE_X / 3
     const val CAMERA_OFFSET_Y = 200
     const val KILL_PLANE = -2500
+    const val HUD_MARGIN = 20f
 
     const val PLAYER_WIDTH = 80f
     const val PLAYER_HEIGHT = 120f
@@ -27,6 +29,9 @@ object Constants {
     const val JUMP_ATLAS = "jump.atlas"
     const val JUMP = "jump"
     const val FALL = "fall"
+    const val EMPTY_CHEST = "EmptyChest"
+    const val CHEST = "Chest"
+    const val HOME = "home"
     const val IDLE1 = "idle1"
     const val IDLE2 = "idle2"
 

@@ -16,7 +16,6 @@ class Ground(private val assets: Assets,
     fun render(batch: SpriteBatch) {
         batch.begin()
         DrawUtils.drawTextureRegion(batch, assets.ground, position.x, position.y)
-
         batch.end()
     }
 
