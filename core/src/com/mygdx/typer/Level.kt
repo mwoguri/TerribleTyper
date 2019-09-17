@@ -21,6 +21,7 @@ import kotlin.random.Random
 class Level(private val keyProcessor: KeyProcessor) :
         InputProcessor by keyProcessor,
         MoveListener {
+    private var maxPossibleScore = 1
     private lateinit var batch: SpriteBatch
     private lateinit var assets: Assets
     private lateinit var player: Player
@@ -33,8 +34,12 @@ class Level(private val keyProcessor: KeyProcessor) :
     private var chest: Chest? = null
     private var score = 0
 
-    override fun jump() {
+    override fun success() {
         player.jump()
+    }
+
+    override fun error() {
+        score -= Constants.WRONG_KEY_PENALTY
     }
 
     fun show() {
@@ -54,12 +59,16 @@ class Level(private val keyProcessor: KeyProcessor) :
         grounds = Array<Ground>()
         backgrounds = Array<Background>()
         for (image: Image in level.composite.sImages) {
-            if (image.imageName == Constants.BACKGROUND) {
-                backgrounds.add(Background(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH)))
-            } else if (image.imageName == Constants.LAND) {
-                grounds.add(Ground(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH)))
-            } else if (image.imageName == Constants.EMPTY_CHEST){
-                chest = Chest(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y* Constants.PIXELS_PER_INCH))
+            when {
+                image.imageName == Constants.BACKGROUND -> {
+                    val background = Background(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH))
+                    backgrounds.add(background)
+                }
+                image.imageName == Constants.LAND -> {
+                    val noCoins = image.tags?.contains(Constants.EMPTY) ?: false
+                    grounds.add(Ground(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y * Constants.PIXELS_PER_INCH), !noCoins))
+                }
+                image.imageName == Constants.EMPTY_CHEST -> chest = Chest(assets, Vector2(image.x * Constants.PIXELS_PER_INCH, image.y* Constants.PIXELS_PER_INCH))
             }
         }
         player = Player(assets)
@@ -84,7 +93,10 @@ class Level(private val keyProcessor: KeyProcessor) :
 
         if (isAtEndOfLevel()){
             player.velocity.x = 0f
-            chest?.isFull = true
+
+            if (score/maxPossibleScore.toFloat() > .8) {
+                chest?.isFull = true
+            }
         }
         keyProcessor.update(player.position)
 
@@ -135,20 +147,27 @@ class Level(private val keyProcessor: KeyProcessor) :
 
     private fun generateCoins() {
         for (ground in grounds) {
-            val numCoins: Int = (Math.random() * 5f).toInt() + 5
-            for (position in ground.generateCoinLocations(numCoins)) {
-                val target = if (Random.nextBoolean()) KeyProcessor.HOMEROW else 'j'
-                coins.add(Coin(target, assets, font, position))
+            if (ground.coins) {
+                val numCoins: Int = (Math.random() * 5f).toInt() + 5
+                for (position in ground.generateCoinLocations(numCoins)) {
+                    val target = if (Random.nextBoolean()) KeyProcessor.HOMEROW else 'j'
+                    coins.add(Coin(target, assets, font, position))
+                }
             }
         }
     }
 
     private fun spawn() {
-        player.position.set(100f, 600f)
+        player.position.set(100f, 430f)
         player.velocity.y = 0f
         score = 0
         coins.clear()
         generateCoins()
+        maxPossibleScore = getMaxScore(coins)
+    }
+
+    private fun getMaxScore(coins: DelayedRemovalArray<Coin>): Int {
+        return coins.size * Constants.COIN_VALUE
     }
 
 }

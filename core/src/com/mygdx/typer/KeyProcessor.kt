@@ -36,10 +36,14 @@ class KeyProcessor(val clock: Clock = RealClock) : InputProcessor {
         if (target == HOMEROW && character in HOMEROW_KEYS) {
             previousKeys[character] = clock.nanoTime()
             if (homerowHit()) {
-                moveListener?.jump()
+                moveListener?.success()
             }
+        } else if(target == HOMEROW){
+            moveListener?.error()
         } else if (character == target) {
-            moveListener?.jump()
+            moveListener?.success()
+        } else {
+            moveListener?.error()
         }
         return true
     }

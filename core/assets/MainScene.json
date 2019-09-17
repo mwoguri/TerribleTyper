@@ -80,7 +80,7 @@
         "uniqueId": 9,
         "itemIdentifier": "land",
         "tags": [
-          "end"
+          "empty"
         ],
         "x": 85.975006,
         "originX": 15.0125,
@@ -92,8 +92,8 @@
       {
         "uniqueId": 11,
         "tags": [],
-        "x": 109.675,
-        "y": 2.4875002,
+        "x": 105.525,
+        "y": 2.4875,
         "originX": 0.75,
         "originY": 0.6625,
         "zIndex": 8,

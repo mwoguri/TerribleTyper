@@ -31,7 +31,7 @@ class KeyProcessorTest {
         keyProcessor.keyDown(Keys.D)
         `when`(fakeClock.nanoTime()).thenReturn(ONE_SECOND)
         keyProcessor.keyDown(Keys.F)
-        verify(listener, times(0)).jump()
+        verify(listener, times(0)).success()
     }
 
     @Test
@@ -40,7 +40,7 @@ class KeyProcessorTest {
         keyProcessor.setMoveListener(listener)
         keyProcessor.setKey(HOMEROW)
         KeyProcessor.HOMEROW_KEYS.forEach { keyProcessor.keyDown(it) }
-        Mockito.verify(listener, atLeast(1)).jump()
+        Mockito.verify(listener, atLeast(1)).success()
     }
 
     @Test
@@ -51,7 +51,7 @@ class KeyProcessorTest {
         keyProcessor.keyDown(Keys.A)
         keyProcessor.keyDown(Keys.S)
         keyProcessor.keyDown(Keys.D)
-        Mockito.verify(listener, times(0)).jump()
+        Mockito.verify(listener, times(0)).success()
     }
 
     @Test
@@ -60,7 +60,7 @@ class KeyProcessorTest {
         keyProcessor.setMoveListener(listener)
         keyProcessor.setKey(Keys.B)
         keyProcessor.keyDown(Keys.B)
-        Mockito.verify(listener, times(1)).jump()
+        Mockito.verify(listener, times(1)).success()
     }
 
     @Test
@@ -69,6 +69,6 @@ class KeyProcessorTest {
         keyProcessor.setMoveListener(listener)
         keyProcessor.setKey(Keys.A)
         keyProcessor.keyDown(Keys.B)
-        Mockito.verify(listener, times(0)).jump()
+        Mockito.verify(listener, times(0)).success()
     }
 }

@@ -82,7 +82,7 @@ class Player(private val assets: Assets,
     }
 
     fun jump() {
-        if (state == State.GROUNDED) { //can't jump if already airborne
+        if (state == State.GROUNDED) { //can't success if already airborne
             state = State.AIRBORNE
             velocity.y = Constants.JUMP_SPEED
         }

@@ -8,7 +8,8 @@ import com.mygdx.typer.util.Constants
 import com.mygdx.typer.util.DrawUtils
 
 class Ground(private val assets: Assets,
-             val position: Vector2) {
+             val position: Vector2,
+             val coins: Boolean = true) {
 
     val width = 2402
     val height = 219

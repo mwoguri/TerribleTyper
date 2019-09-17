@@ -2,7 +2,9 @@ package com.mygdx.typer.util
 
 object Constants {
 
-    const val COIN_VALUE = 10
+    const val EMPTY = "empty"
+    const val WRONG_KEY_PENALTY = 1
+    const val COIN_VALUE = 4
     const val HOME_ICON_OFFSET = 10
     const val COIN_OFFSET = 30
     const val COIN_ALTITUDE = 200f

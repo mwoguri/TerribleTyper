@@ -1,5 +1,6 @@
 package com.mygdx.typer
 
 interface MoveListener {
-    fun jump()
+    fun success()
+    fun error()
 }
